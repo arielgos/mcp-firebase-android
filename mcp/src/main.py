@@ -8,7 +8,7 @@ from starlette.routing import Route, Mount
 from mcp.server.fastmcp import FastMCP
 
 # --- Simple auth via bearer token (optional but recommended) ---
-MCP_AUTH_TOKEN = os.getenv("MCP_AUTH_TOKEN", "")
+MCP_AUTH_TOKEN = os.getenv("MCP_AUTH_TOKEN", "peru")
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
@@ -48,4 +48,6 @@ app = Starlette(
         Mount("/mcp", app=mcp.streamable_http_app()),
     ]
 )
+
 app.add_middleware(AuthMiddleware)
+

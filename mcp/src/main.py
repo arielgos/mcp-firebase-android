@@ -28,7 +28,7 @@ async def mcp_lifespan(app):
         yield
 
 # MCP instance
-mcp = FastMCP(name="CloudRunMCP", streamable_http_path="/")
+mcp = FastMCP(name="CloudRunMCP", streamable_http_path="/",stateless_http=True)
 
 # MCP tools
 @mcp.tool()

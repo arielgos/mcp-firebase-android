@@ -14,6 +14,8 @@ MCP_AUTH_TOKEN = os.getenv("MCP_AUTH_TOKEN", "gdg-santa-cruz")
 # Middleware for authentication
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
+        print("AuthMiddleware: Checking authorization")
+        print(request.headers)
         if MCP_AUTH_TOKEN:
             auth = request.headers.get("authorization", "")
             if auth != f"Bearer {MCP_AUTH_TOKEN}":
@@ -74,5 +76,5 @@ app = Starlette(
     ], lifespan=mcp_lifespan
 )
 
-app.add_middleware(AuthMiddleware)
+# app.add_middleware(AuthMiddleware)
 

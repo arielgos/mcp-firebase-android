@@ -1,1 +1,2 @@
 google-genai>=1.52.0
+openai>=2.8.1

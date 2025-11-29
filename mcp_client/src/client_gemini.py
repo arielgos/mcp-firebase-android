@@ -1,18 +1,22 @@
+from urllib import response
 import requests
 import uuid
+import json
 from google import genai
 from google.genai import types
 
-# 1. Cliente Gemini (ajusta a tu lib real / API key)
-client = genai.Client(api_key="AIzaSyB4DEzXz-cVNYuGz55tSfQY2wRo850_WZ8")
+client = genai.Client(api_key="AIzaSyBZTAGrPMFZ1t3wQeY-sG8LAgsvz86Uqj4")
 
-MCP_URL = "https://c31ec0d41130.ngrok-free.app/mcp"
+MCP_URL = "https://9fc5ae44b3d8.ngrok-free.app/mcp"
 
 def gen_id():
     return str(uuid.uuid4())
 
 def call_mcp_sum(a: int, b: int) -> int:
-    headers = {"Authorization": "Bearer gdg-santa-cruz"}
+    headers = {
+            "Authorization": "Bearer gdg-santa-cruz",
+            "Accept": "application/json, text/event-stream"
+        }
     rid = gen_id()
     payload = {
         "id": rid,
@@ -23,9 +27,10 @@ def call_mcp_sum(a: int, b: int) -> int:
             "arguments":{"a": a, "b": b}
         }
     }
-    resp = requests.post(MCP_URL, headers=headers, json=payload)
-    resp.raise_for_status()
-    return resp.json()
+    response = requests.request("POST", MCP_URL, headers=headers, json=payload)
+    print(response.status_code)
+    print(response.text)
+    return response.json()
 
 def chat_with_gemini(user_prompt: str):
     system_prompt = """
@@ -39,7 +44,7 @@ def chat_with_gemini(user_prompt: str):
         )
 
     result = client.models.generate_content(
-        model="gemini-2.5-pro",
+        model="gemini-2.5-flash",
         contents= user_prompt,
         config=config,
     )
@@ -48,8 +53,6 @@ def chat_with_gemini(user_prompt: str):
     clean = text.strip().strip("`").replace("json", "", 1).strip()
 
     if '"tool"' in clean and '"add"' in clean:
-        import json
-        print("Detected tool call:", clean)
         tool_call = json.loads(clean)
         if tool_call.get("tool") == "add":
             a = int(tool_call["a"])

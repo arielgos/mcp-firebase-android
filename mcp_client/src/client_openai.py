@@ -44,7 +44,7 @@ def chat_with_gemini(user_prompt: str):
     )
 
     completion = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="google/gemma-3-27b",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -54,15 +54,7 @@ def chat_with_gemini(user_prompt: str):
     text = completion.choices[0].message.content.strip()
 
     if 'tool.add' in text or ('"tool"' in text and '"add"' in text) : 
-        clean = text.replace("<|channel|>", "").strip()
-        clean = clean.replace("commentary ", "").strip()
-        clean = clean.replace("<|message|>", "").strip()
-        clean = clean.replace("<|constrain|>", "").strip()
-        clean = clean.replace("to=", "").strip()
-        clean = clean.replace("json", "").strip()
-        clean = clean.replace("tool.", "").strip()
-        clean = clean.replace("add", "").strip()
-        clean = clean.replace("code", "").strip()
+        clean=text.replace("`","").replace("json","").strip()
         tool_call = json.loads(clean)
         a = int(tool_call["a"])
         b = int(tool_call["b"])

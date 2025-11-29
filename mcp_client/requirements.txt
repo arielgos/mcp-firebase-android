@@ -1,2 +1,4 @@
 google-genai>=1.52.0
 openai>=2.8.1
+uvicorn>=0.38
+fastapi>=0.122.0

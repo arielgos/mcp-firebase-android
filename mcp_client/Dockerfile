@@ -21,9 +21,5 @@ COPY src ./app
 ENV PORT=9000
 EXPOSE 9000
 
-# Start the application
-# uvicorn app.webservice:app --reload --host 0.0.0.0 --port 9000
-CMD ["tail", "-f", "/dev/null"]
-
 # Start the application uvicorn app.main:mcp --host 0.0.0.0 --port 8000
-#CMD ["uvicorn", "app.webservice:app", "--host", "0.0.0.0", "--port", "9000"]
+CMD ["uvicorn", "app.webservice:app", "--host", "0.0.0.0", "--port", "9000"]

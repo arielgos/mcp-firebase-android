@@ -5,7 +5,7 @@ import json
 import openai
 import re
 
-MCP_URL = "https://9fc5ae44b3d8.ngrok-free.app/mcp"
+MCP_URL = "http://host.docker.internal:8000/mcp"
 
 def gen_id():
     return str(uuid.uuid4())

@@ -7,7 +7,7 @@ from google.genai import types
 
 client = genai.Client(api_key="AIzaSyBZTAGrPMFZ1t3wQeY-sG8LAgsvz86Uqj4")
 
-MCP_URL = "https://9fc5ae44b3d8.ngrok-free.app/mcp"
+MCP_URL = "http://host.docker.internal:8000/mcp"
 
 def gen_id():
     return str(uuid.uuid4())
@@ -28,9 +28,9 @@ def call_mcp_sum(a: int, b: int) -> int:
         }
     }
     response = requests.request("POST", MCP_URL, headers=headers, json=payload)
-    print(response.status_code)
-    print(response.text)
-    return response.json()
+    text=response.text.replace("event: message"," ").replace("data: ","").strip()
+    json_str = json.loads(text)
+    return int(json_str["result"]["structuredContent"]["result"])
 
 def chat_with_gemini(user_prompt: str):
     system_prompt = """

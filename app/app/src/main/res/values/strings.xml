@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">mcpfa</string>
+    <string name="send">Enviar</string>
 </resources>

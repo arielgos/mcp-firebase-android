@@ -42,4 +42,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    implementation(libs.retrofit.v290) // Use the latest version
+    implementation(libs.converter.gson)
+
 }

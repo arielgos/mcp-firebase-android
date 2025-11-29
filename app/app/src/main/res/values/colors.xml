@@ -6,4 +6,50 @@
     <color name="white">
         #FFFFFFFF
     </color>
+
+    <color name="colorPrimary">
+        #516DFF
+    </color>
+    <color name="colorPrimaryDark">
+        #516DFF
+    </color>
+    <color name="colorAccent">
+        #BBDEFB
+    </color>
+
+    <color name="blue0">
+        #027DB9
+    </color>
+    <color name="blue1">
+        #039BE6
+    </color>
+    <color name="blue2">
+        #00ECB5
+    </color>
+    <color name="blue3">
+        #83D6FE
+    </color>
+    <color name="blue4">
+        #C5EBFE
+    </color>
+    <color name="blue5">
+        #E7FDFF
+    </color>
+
+    <color name="yellow0">
+        #757575
+    </color>
+    <color name="yellow1">
+        #BDBDBD
+    </color>
+    <color name="yellow2">
+        #EEEEEE
+    </color>
+    <color name="yellow3">
+        #5500ECB5
+    </color>
+
+    <color name="colorWhite">
+        #FFFFFF
+    </color>
 </resources>

@@ -35,7 +35,7 @@ enum class MessageType {
 data class Chat(val message: String)
 
 interface LMService {
-    @POST("chat") fun postChat(@Body chat: Chat?): Call<Chat?>?
+    @POST("chat") fun postChat(@Body chat: Chat?): Call<String?>?
 }
 
 data class Message(val message: String, val type: MessageType)
@@ -79,18 +79,18 @@ class MainActivity : AppCompatActivity() {
 
             val apiService: LMService = retrofit.create(LMService::class.java)
 
-            val call: Call<Chat?>? = apiService.postChat(Chat(message = userMessage)) // Can be null
-            call?.enqueue(object : retrofit2.Callback<Chat?> {
-                override fun onResponse(call: Call<Chat?>, response: Response<Chat?>) {
+            val call: Call<String?>? = apiService.postChat(Chat(message = userMessage)) // Can be null
+            call?.enqueue(object : retrofit2.Callback<String?> {
+                override fun onResponse(call: Call<String?>, response: Response<String?>) {
                     if (response.isSuccessful) {
                         response.body()?.let {
-                            messages.add(Message(it.message, MessageType.SYSTEM))
+                            messages.add(Message(it, MessageType.SYSTEM))
                             adapter.notifyDataSetChanged()
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<Chat?>, t: Throwable) { // Handle network or other errors, e.g., show a message to the user
+                override fun onFailure(call: Call<String?>, t: Throwable) { // Handle network or other errors, e.g., show a message to the user
                     messages.add(Message("Error: ${t.message}", MessageType.SYSTEM))
                     adapter.notifyDataSetChanged()
                 }

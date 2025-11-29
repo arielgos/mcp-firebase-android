@@ -23,10 +23,9 @@ import retrofit2.http.POST
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
+import java.util.Locale
 
-
-const val url = "https://7086215096ce.ngrok-free.app"
-
+const val url = "https://unantlered-unfailingly-jin.ngrok-free.dev"
 
 enum class MessageType {
     USER, SYSTEM
@@ -35,7 +34,8 @@ enum class MessageType {
 data class Chat(val message: String)
 
 interface LMService {
-    @POST("chat") fun postChat(@Body chat: Chat?): Call<String?>?
+    @POST("chat")
+    fun postChat(@Body chat: Chat?): Call<String?>?
 }
 
 data class Message(val message: String, val type: MessageType)
@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val adapter: MessageAdapter = MessageAdapter(this@MainActivity, messages)
+        val adapter = MessageAdapter(this@MainActivity, messages)
         list = findViewById(R.id.list)
-        list?.setAdapter(adapter);
+        list?.setAdapter(adapter)
 
         txtMessage = findViewById(R.id.message)
         btnSend = findViewById(R.id.send)
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
             val apiService: LMService = retrofit.create(LMService::class.java)
 
-            val call: Call<String?>? = apiService.postChat(Chat(message = userMessage)) // Can be null
+            val call: Call<String?>? = apiService.postChat(Chat(message = userMessage))
             call?.enqueue(object : retrofit2.Callback<String?> {
                 override fun onResponse(call: Call<String?>, response: Response<String?>) {
                     if (response.isSuccessful) {
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<String?>, t: Throwable) { // Handle network or other errors, e.g., show a message to the user
+                override fun onFailure(call: Call<String?>, t: Throwable) {
                     messages.add(Message("Error: ${t.message}", MessageType.SYSTEM))
                     adapter.notifyDataSetChanged()
                 }
@@ -102,14 +102,14 @@ class MainActivity : AppCompatActivity() {
     class MessageAdapter(context: Context, messages: MutableList<Message>) : ArrayAdapter<Message?>(context, 0, messages) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val message: Message? = getItem(position)
-            var convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_item, parent, false)
+            var convertView = LayoutInflater.from(context).inflate(R.layout.message_item, parent, false)
             if (message?.type == MessageType.SYSTEM) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.system_message_item, parent, false)
+                convertView = LayoutInflater.from(context).inflate(R.layout.system_message_item, parent, false)
             }
             val tvMessage = convertView.findViewById<View?>(R.id.message) as TextView
             val tvDate = convertView.findViewById<View?>(R.id.date) as TextView
-            tvMessage.setText(message?.message)
-            tvDate.setText(SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date.from(Instant.now())))
+            tvMessage.text = message?.message
+            tvDate.text = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US).format(Date.from(Instant.now()))
             return convertView
         }
     }
